@@ -24,6 +24,7 @@ public class IPLMain
 	public  final static String BATTING_CSV_FILE_PATH ="src/main/resources/FactsheetMostRuns.csv"; 
 	public  final static String BOWLING_CSV_FILE_PATH = "src/main/resources/FactsheetMostWkts.csv"; 
 	public static Scanner sc= new Scanner(System.in);
+	
     public static void main( String[] args ) throws CsvException
     {
         log.info( "IPL 2019 STATISTICS") ;
@@ -46,6 +47,7 @@ public class IPLMain
             log.info("\n13.Allrounders with best batting and balling average.");
             log.info("\n14.Allrounders with Most Wickets and Most Runs.");
             log.info("\n15.Batsman with Most Hunderds and Best Average.");
+            log.info("\n16.Cricket with Best Average without Fifty of hundreds.");
             
             
 
@@ -82,12 +84,14 @@ public class IPLMain
         	        break;
         	case 15: newIplMain.topHunderdScorerWithBestAverages(BATTING_CSV_FILE_PATH);
         	        break;
-        	}
+        	case 16:newIplMain.bestAveragePlayersWithoutHunderedOrFifty();
+        	        break;
+        		}
         	
-        }while(choice>0 && choice<=15);
+        }while(choice>0 && choice<=16);
         
   }
-    
+   
     public List<BatsmanCsvData> batsmenCsvDataLoader(String BatsmanCsvFilePath) throws CsvException {
 		try (Reader reader = Files.newBufferedReader(Paths.get(BatsmanCsvFilePath));) {
 			ICsvCreator csvCreator = CsvBuilderFactory.createBuilderEntry();
@@ -107,7 +111,12 @@ public class IPLMain
 			throw new CsvException("File Error");
 		}
 	}
-    
+    public List<BatsmanCsvData> bestAveragePlayersWithoutHunderedOrFifty() {
+		return (List<BatsmanCsvData>) listOfBatsman.stream()
+				.filter(batsman -> (batsman.fifty==0) && (batsman.hundreds==0)).
+				sorted((firstBatsman,secondBatsman)->secondBatsman.hundreds.compareTo(firstBatsman.hundreds))
+				.limit(5).collect(Collectors.toList());
+	}
     public List<BatsmanCsvData> topHunderdScorerWithBestAverages(String BatsmanCsvFilePath) throws CsvException {
 		List<BatsmanCsvData> topFiveAveragePlayers=topFiveAverages(BatsmanCsvFilePath);
 		List<BatsmanCsvData> topHunderdScorerWithBestAveragePlayers=topFiveAveragePlayers.stream().sorted((firstBatsman,secondBatsman)->secondBatsman.hundreds.compareTo(firstBatsman.hundreds))
