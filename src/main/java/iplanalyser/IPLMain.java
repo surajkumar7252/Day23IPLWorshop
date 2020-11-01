@@ -36,7 +36,8 @@ public class IPLMain
             log.info("\n6.Batsman With Most Runs  with Best Batting Average.");
             log.info("\n7.Bowler with Best Bowling Average.");
             log.info("\n8.Bowler with Best Bowling Strike Rate.");
-            log.info("\n8.Bowler with Best Bowling Economy.");
+            log.info("\n9.Bowler with Best Bowling Economy.");
+            log.info("\n10.Bowler with Max Four and Five Wickets With Max strike rate.");
             
             
 
@@ -61,10 +62,11 @@ public class IPLMain
                     break; 
         	case 9: newIplMain.topBowlingEconomy(BOWLING_CSV_FILE_PATH);
                     break;
-   
+        	case 10: newIplMain.topFiveAndFourWicketTakersWithBestBowlingStrikeRate(BOWLING_CSV_FILE_PATH);
+        	        break;
         	}
         	
-        }while(choice>0 && choice<=8);
+        }while(choice>0 && choice<=10);
         
   }
     
@@ -154,6 +156,20 @@ public class IPLMain
   		List<BowlerCsvData> bowlerWithTopBowlingEconomy=listOfBowler.stream().sorted((firstBowler,secondBowler)->secondBowler.economy.compareTo(firstBowler.economy))
   				.limit(5).collect(Collectors.toList());
   		return bowlerWithTopBowlingEconomy;
+  	}
+    
+    public List<BowlerCsvData> topFiveAndFourWicketTakers(String BowlerCsvFilePath) throws CsvException {
+  		List<BowlerCsvData> listOfBowler=bowlerCsvDataLoader(BowlerCsvFilePath);
+  		List<BowlerCsvData> topFiveAndFourWicketTakingBowlers=listOfBowler.stream().sorted((firstBowler,secondBowler)->(secondBowler.getMaxFourAndFiveWicket).compareTo((firstBowler.getMaxFourAndFiveWicket)))
+  				.limit(5).collect(Collectors.toList());
+  		return topFiveAndFourWicketTakingBowlers;
+  	}
+    
+    public List<BowlerCsvData> topFiveAndFourWicketTakersWithBestBowlingStrikeRate(String BowlerCsvFilePath) throws CsvException {
+  		List<BowlerCsvData> topFiveAndFourWicketTakingBowlers=topFiveAndFourWicketTakers(BowlerCsvFilePath);
+  		List<BowlerCsvData> topFiveAndFourWicketTakingBowlersWithBestStrikeRate=topFiveAndFourWicketTakingBowlers.stream().sorted((firstBowler,secondBowler)->(secondBowler.strikeRate).compareTo((firstBowler.strikeRate)))
+  				.limit(5).collect(Collectors.toList());
+  		return topFiveAndFourWicketTakingBowlersWithBestStrikeRate;
   	}
     
 }

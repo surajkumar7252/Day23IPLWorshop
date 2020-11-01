@@ -42,6 +42,8 @@ public class BowlerCsvData {
 	@CsvBindByName(column = "5w", required = true)
 	public Integer fiveWickets;
 
+	public Integer getMaxFourAndFiveWicket=fourWickets+fiveWickets;
+
 	@Override
 	public String toString() {
 		return "Name=" + name + ","+" Matches=" + matches + ","+" Innings=" + innings + ","+"Overs="+overs+","+" Runs=" + runs
@@ -49,6 +51,8 @@ public class BowlerCsvData {
 				+ economy + ","+" Strike Rate=" + strikeRate + ","+" 4 Wickets=" + fourWickets + ","+" 5 Wickets=" + fiveWickets;
 				
 	}
+	
+	
 
 	
 }
