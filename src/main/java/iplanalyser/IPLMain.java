@@ -36,6 +36,7 @@ public class IPLMain
             log.info("\n6.Batsman With Most Runs  with Best Batting Average.");
             log.info("\n7.Bowler with Best Bowling Average.");
             log.info("\n8.Bowler with Best Bowling Strike Rate.");
+            log.info("\n8.Bowler with Best Bowling Economy.");
             
             
 
@@ -58,6 +59,8 @@ public class IPLMain
                     break; 
         	case 8: newIplMain.topBowlingStrikeRates(BOWLING_CSV_FILE_PATH);
                     break; 
+        	case 9: newIplMain.topBowlingEconomy(BOWLING_CSV_FILE_PATH);
+                    break;
    
         	}
         	
@@ -145,5 +148,12 @@ public class IPLMain
 				.limit(5).collect(Collectors.toList());
 		return bowlerWithTopBowlingStrikeRates;
 	}
+    
+    public List<BowlerCsvData> topBowlingEconomy(String BowlerCsvFilePath) throws CsvException {
+  		List<BowlerCsvData> listOfBowler=bowlerCsvDataLoader(BowlerCsvFilePath);
+  		List<BowlerCsvData> bowlerWithTopBowlingEconomy=listOfBowler.stream().sorted((firstBowler,secondBowler)->secondBowler.economy.compareTo(firstBowler.economy))
+  				.limit(5).collect(Collectors.toList());
+  		return bowlerWithTopBowlingEconomy;
+  	}
     
 }
