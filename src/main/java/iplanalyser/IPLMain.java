@@ -33,6 +33,8 @@ public class IPLMain
             log.info("\n3.Top Sixes and fours hitter.");
             log.info("\n4.Top Sixes and fours hitter with Best Batting Strike Rates.");
             log.info("\n5.Batsman With Best Strike Rate with Best Batting Strike Rates.");
+            log.info("\n6.Batsman With Most Runs  with Best Batting Average.");
+             
             
 
         	choice=sc.nextInt();
@@ -46,10 +48,13 @@ public class IPLMain
         	case 4: newIplMain.topStrikeRatesWithMaxSixesAndFours(BATTING_CSV_FILE_PATH);
                      break;
         	case 5: newIplMain.topStrikeRatesWithMaxAverage(BATTING_CSV_FILE_PATH);
-            break;          
+                    break; 
+        	case 6: newIplMain.topRunMakerWithBestAverages(BATTING_CSV_FILE_PATH);
+                     break; 
+   
         	}
         	
-        }while(choice>0 && choice<=4);
+        }while(choice>0 && choice<=6);
         
   }
     
@@ -96,4 +101,16 @@ public class IPLMain
 		return topStrikeRateWithMaximumAverage;
 	}
     
+    public List<BatsmanCsvData> topRunMaker(String BatsmanCsvFilePath) throws CsvException {
+		List<BatsmanCsvData> listOfBatsman=batsmenCsvDataLoader(BatsmanCsvFilePath);
+		List<BatsmanCsvData> maxRunPlayers=listOfBatsman.stream().sorted((firstBatsman,secondBatsman)->(secondBatsman.runs).compareTo((firstBatsman.runs)))
+				.limit(5).collect(Collectors.toList());
+		return maxRunPlayers;
+	}
+    public List<BatsmanCsvData> topRunMakerWithBestAverages(String BatsmanCsvFilePath) throws CsvException {
+		List<BatsmanCsvData> maxRunPlayers=topRunMaker(BatsmanCsvFilePath);
+		List<BatsmanCsvData> MaxRunMakerWithBestAverages=maxRunPlayers.stream().sorted((firstBatsman,secondBatsman)->(secondBatsman.avg).compareTo((firstBatsman.avg)))
+				.limit(5).collect(Collectors.toList());
+		return MaxRunMakerWithBestAverages;
+	}
 }
