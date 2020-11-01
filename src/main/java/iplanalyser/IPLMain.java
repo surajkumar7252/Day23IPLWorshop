@@ -44,6 +44,7 @@ public class IPLMain
             log.info("\n11.Bowler with Best Average and With Max strike rate.");
             log.info("\n12.Bowler with Best Average and With Max Wickets.");
             log.info("\n13.Allrounders with best batting and balling average.");
+            log.info("\n14.Allrounders with Most Wickets and Most Runs.");
             
             
 
@@ -75,7 +76,9 @@ public class IPLMain
         	case 12: newIplMain.bestBowlingAverageWithMaxWickets(BOWLING_CSV_FILE_PATH);
                     break;
         	case 13: newIplMain.BestBowlingAndBattingAveragePlayers();
-            break;
+                    break;
+        	case 14: newIplMain.bestRunAndWicketTakers();
+        	        break;
         	}
         	
         }while(choice>0 && choice<=13);
@@ -200,12 +203,20 @@ public class IPLMain
     
     public List<BowlerCsvData> BestBowlingAndBattingAveragePlayers() {
 		   List<BowlerCsvData>allRounderPlayers=listOfBowler.stream().filter(bowler->{
-	       listOfBatsman.stream().anyMatch(batsman->batsman.name.equals(bowler.name));}).collect(Collectors.toList());
-		   allRounderPlayers.stream().sorted(Comparator.comparing(localAllRoundPlayers->{
+			   return (bowler.bowlerAverage!=0) && listOfBatsman.stream().anyMatch(batsman->batsman.name.equals(bowler.name));}).collect(Collectors.toList());
+		 allRounderPlayers.stream().sorted(Comparator.comparing(localAllRoundPlayers->{
 		    	BatsmanCsvData batsman= listOfBatsman.stream().filter(batsMan->batsMan.name.equals(localAllRoundPlayers.name)).findFirst().orElse(null);
 			return localAllRoundPlayers.bowlerAverage*(1/batsman.avg);
 		})).collect(Collectors.toList());
 	}
+    public List<BowlerCsvData> bestRunAndWicketTakers() {
+    	 List<BowlerCsvData>allRounderPlayers=listOfBowler.stream().filter(bowler->{
+			   return (bowler.wickets!=0) && listOfBatsman.stream().anyMatch(batsman->batsman.name.equals(bowler.name));}).collect(Collectors.toList());
+		   allRounderPlayers.stream().sorted(Comparator.comparing(localAllRoundPlayers->{
+		    	BatsmanCsvData batsman= listOfBatsman.stream().filter(batsMan->batsMan.name.equals(localAllRoundPlayers.name)).findFirst().orElse(null);
+		    	return 1 / (localAllRoundPlayers.wickets * batsman.runs);
+		})).collect(Collectors.toList());
+	}
+	}
     
-    
-}
+

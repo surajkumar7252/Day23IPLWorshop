@@ -20,7 +20,7 @@ public class BowlerCsvData {
 	public Integer runs;
 	
 	@CsvBindByName(column = "Wkts", required = true)
-	public String wickets;
+	public Integer wickets;
 	
 	@CsvBindByName(column = "BBI", required = true)
 	public Double bbi;
