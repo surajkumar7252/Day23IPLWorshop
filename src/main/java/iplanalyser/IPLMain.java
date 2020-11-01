@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -17,6 +18,8 @@ import com.opencsv.exceptions.CsvException;
 public class IPLMain 
 {
 	private static final Logger log = LogManager.getLogger(IPLMain.class); 
+	private List<BatsmanCsvData> listOfBatsman;
+	private List<BowlerCsvData>listOfBowler;
 	
 	public  final static String BATTING_CSV_FILE_PATH ="src/main/resources/FactsheetMostRuns.csv"; 
 	public  final static String BOWLING_CSV_FILE_PATH = "src/main/resources/FactsheetMostWkts.csv"; 
@@ -40,6 +43,7 @@ public class IPLMain
             log.info("\n10.Bowler with Max Four and Five Wickets With Max strike rate.");
             log.info("\n11.Bowler with Best Average and With Max strike rate.");
             log.info("\n12.Bowler with Best Average and With Max Wickets.");
+            log.info("\n13.Allrounders with best batting and balling average.");
             
             
 
@@ -69,10 +73,12 @@ public class IPLMain
         	case 11: newIplMain.bestBowlingAverageWithBestBowlingStrikeRate(BOWLING_CSV_FILE_PATH);
 	                break;
         	case 12: newIplMain.bestBowlingAverageWithMaxWickets(BOWLING_CSV_FILE_PATH);
+                    break;
+        	case 13: newIplMain.BestBowlingAndBattingAveragePlayers();
             break;
         	}
         	
-        }while(choice>0 && choice<=12);
+        }while(choice>0 && choice<=13);
         
   }
     
@@ -191,5 +197,15 @@ public class IPLMain
   				.limit(5).collect(Collectors.toList());
   		return bolwersWithBestBowlingAverageWithMaxWickets;
   	}
+    
+    public List<BowlerCsvData> BestBowlingAndBattingAveragePlayers() {
+		   List<BowlerCsvData>allRounderPlayers=listOfBowler.stream().filter(bowler->{
+	       listOfBatsman.stream().anyMatch(batsman->batsman.name.equals(bowler.name));}).collect(Collectors.toList());
+		   allRounderPlayers.stream().sorted(Comparator.comparing(localAllRoundPlayers->{
+		    	BatsmanCsvData batsman= listOfBatsman.stream().filter(batsMan->batsMan.name.equals(localAllRoundPlayers.name)).findFirst().orElse(null);
+			return localAllRoundPlayers.bowlerAverage*(1/batsman.avg);
+		})).collect(Collectors.toList());
+	}
+    
     
 }
