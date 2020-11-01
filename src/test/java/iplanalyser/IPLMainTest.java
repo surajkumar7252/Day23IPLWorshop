@@ -39,5 +39,17 @@ public void batsmenCsvFileWhenLoaded_ShouldReturnTheBatsmanAverages() {
 	}
 }
 
+	public void batsmenCsvFileWhenLoaded_ShouldReturnTheBatsmanStrikerates() {
+		List<BatsmanCsvData> topStrikeRates;
+		try {
+			topStrikeRates = iplMain.topFiveStrikeRates(BATTING_CSV_FILE_PATH);
+			log.info(topStrikeRates.get(0));
+			Assert.assertEquals("David Warner" , topStrikeRates.get(0).name);
+			Assert.assertEquals(10, topStrikeRates.size());
+			
+		} catch (CsvException e) {
+			e.printStackTrace();
+		}
+	}
    
 }
