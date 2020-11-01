@@ -34,7 +34,8 @@ public class IPLMain
             log.info("\n4.Top Sixes and fours hitter with Best Batting Strike Rates.");
             log.info("\n5.Batsman With Best Strike Rate with Best Batting Strike Rates.");
             log.info("\n6.Batsman With Most Runs  with Best Batting Average.");
-             
+            log.info("\n7.Bowler with Best Boeling Average.");
+            
             
 
         	choice=sc.nextInt();
@@ -51,10 +52,13 @@ public class IPLMain
                     break; 
         	case 6: newIplMain.topRunMakerWithBestAverages(BATTING_CSV_FILE_PATH);
                      break; 
+            
+        	case 7: newIplMain.topFiveBowlingAverages(BOWLING_CSV_FILE_PATH);
+            break; 
    
         	}
         	
-        }while(choice>0 && choice<=6);
+        }while(choice>0 && choice<=7);
         
   }
     
@@ -67,6 +71,17 @@ public class IPLMain
 			throw new CsvException("File Error");
 		}
 	}
+    
+    public List<BowlerCsvData> bowlerCsvDataLoader(String bowlingCsvFilePath) throws CsvException {
+		try (Reader reader = Files.newBufferedReader(Paths.get(bowlingCsvFilePath));) {
+			ICsvCreator csvCreator = CsvBuilderFactory.createBuilderEntry();
+			List<BowlerCsvData> listOfBowler = csvCreator.getCSVList(reader,BowlerCsvData.class);
+			return listOfBowler;
+		} catch (IOException e) {
+			throw new CsvException("File Error");
+		}
+	}
+    
     
     public List<BatsmanCsvData> topFiveAverages(String BatsmanCsvFilePath) throws CsvException {
 		List<BatsmanCsvData> listOfBatsman=batsmenCsvDataLoader(BatsmanCsvFilePath);
@@ -113,4 +128,12 @@ public class IPLMain
 				.limit(5).collect(Collectors.toList());
 		return MaxRunMakerWithBestAverages;
 	}
+    
+    public List<BowlerCsvData> topFiveBowlingAverages(String BowlerCsvFilePath) throws CsvException {
+		List<BowlerCsvData> listOfBowler=bowlerCsvDataLoader(BowlerCsvFilePath);
+		List<BowlerCsvData> topperAverage=listOfBowler.stream().sorted((firstBowler,secondBowler)->secondBowler.bowlerAverage.compareTo(firstBowler.bowlerAverage))
+				.limit(5).collect(Collectors.toList());
+		return topperAverage;
+	}
+    
 }
