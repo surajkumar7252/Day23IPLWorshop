@@ -38,6 +38,7 @@ public class IPLMain
             log.info("\n8.Bowler with Best Bowling Strike Rate.");
             log.info("\n9.Bowler with Best Bowling Economy.");
             log.info("\n10.Bowler with Max Four and Five Wickets With Max strike rate.");
+            log.info("\n11.Bowler with Best Average and With Max strike rate.");
             
             
 
@@ -64,6 +65,8 @@ public class IPLMain
                     break;
         	case 10: newIplMain.topFiveAndFourWicketTakersWithBestBowlingStrikeRate(BOWLING_CSV_FILE_PATH);
         	        break;
+        	case 11: newIplMain.bestBowlingAverageWithBestBowlingStrikeRate(BOWLING_CSV_FILE_PATH);
+	                break;
         	}
         	
         }while(choice>0 && choice<=10);
@@ -170,6 +173,13 @@ public class IPLMain
   		List<BowlerCsvData> topFiveAndFourWicketTakingBowlersWithBestStrikeRate=topFiveAndFourWicketTakingBowlers.stream().sorted((firstBowler,secondBowler)->(secondBowler.strikeRate).compareTo((firstBowler.strikeRate)))
   				.limit(5).collect(Collectors.toList());
   		return topFiveAndFourWicketTakingBowlersWithBestStrikeRate;
+  	}
+    
+    public List<BowlerCsvData> bestBowlingAverageWithBestBowlingStrikeRate(String BowlerCsvFilePath) throws CsvException {
+  		List<BowlerCsvData> topFiveBowlingAverageBowlers=topFiveBowlingAverages(BowlerCsvFilePath);
+  		List<BowlerCsvData> bolwersWithBestBowlingAverageWithBestBowlingStrikeRate=topFiveBowlingAverageBowlers.stream().sorted((firstBowler,secondBowler)->(secondBowler.strikeRate).compareTo((firstBowler.strikeRate)))
+  				.limit(5).collect(Collectors.toList());
+  		return bolwersWithBestBowlingAverageWithBestBowlingStrikeRate;
   	}
     
 }
