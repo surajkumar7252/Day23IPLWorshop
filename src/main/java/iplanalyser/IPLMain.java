@@ -45,6 +45,7 @@ public class IPLMain
             log.info("\n12.Bowler with Best Average and With Max Wickets.");
             log.info("\n13.Allrounders with best batting and balling average.");
             log.info("\n14.Allrounders with Most Wickets and Most Runs.");
+            log.info("\n15.Batsman with Most Hunderds and Best Average.");
             
             
 
@@ -79,9 +80,11 @@ public class IPLMain
                     break;
         	case 14: newIplMain.bestRunAndWicketTakers();
         	        break;
+        	case 15: newIplMain.topHunderdScorerWithBestAverages(BATTING_CSV_FILE_PATH);
+        	        break;
         	}
         	
-        }while(choice>0 && choice<=13);
+        }while(choice>0 && choice<=15);
         
   }
     
@@ -105,7 +108,12 @@ public class IPLMain
 		}
 	}
     
-    
+    public List<BatsmanCsvData> topHunderdScorerWithBestAverages(String BatsmanCsvFilePath) throws CsvException {
+		List<BatsmanCsvData> topFiveAveragePlayers=topFiveAverages(BatsmanCsvFilePath);
+		List<BatsmanCsvData> topHunderdScorerWithBestAveragePlayers=topFiveAveragePlayers.stream().sorted((firstBatsman,secondBatsman)->secondBatsman.hundreds.compareTo(firstBatsman.hundreds))
+				.limit(5).collect(Collectors.toList());
+		return topHunderdScorerWithBestAveragePlayers;
+	}
     public List<BatsmanCsvData> topFiveAverages(String BatsmanCsvFilePath) throws CsvException {
 		List<BatsmanCsvData> listOfBatsman=batsmenCsvDataLoader(BatsmanCsvFilePath);
 		List<BatsmanCsvData> topperAverage=listOfBatsman.stream().sorted((firstBatsman,secondBatsman)->secondBatsman.avg.compareTo(firstBatsman.avg))
