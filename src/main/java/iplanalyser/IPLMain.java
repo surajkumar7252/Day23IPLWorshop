@@ -30,6 +30,8 @@ public class IPLMain
         	log.info("\nWhat You want to perform: -");
         	log.info("\n1.Batsman With Best Batting Average");
             log.info("\n2.Batsman With Best Strike Rate");
+            log.info("\n3.Top Sixes and fours hitter.");
+            
 
         	choice=sc.nextInt();
         	switch(choice) {
@@ -37,7 +39,8 @@ public class IPLMain
         	        break;
         	case 2:  newIplMain.topFiveStrikeRates(BATTING_CSV_FILE_PATH);
         	        break;
-        	
+        	case 3: newIplMain.topSixesAndFoursHitter(BATTING_CSV_FILE_PATH);
+	                break;
         	}
         	
         }while(choice>0 && choice<=2);
@@ -63,6 +66,12 @@ public class IPLMain
     public List<BatsmanCsvData> topFiveStrikeRates(String BatsmanCsvFilePath) throws CsvException {
 		List<BatsmanCsvData> listOfBatsman=batsmenCsvDataLoader(BatsmanCsvFilePath);
 		List<BatsmanCsvData> topStrikeRates=listOfBatsman.stream().sorted((firstBatsman,secondBatsman)->secondBatsman.strikeRate.compareTo(firstBatsman.strikeRate))
+				.limit(5).collect(Collectors.toList());
+		return topStrikeRates;
+	}
+    public List<BatsmanCsvData> topSixesAndFoursHitter(String BatsmanCsvFilePath) throws CsvException {
+		List<BatsmanCsvData> listOfBatsman=batsmenCsvDataLoader(BatsmanCsvFilePath);
+		List<BatsmanCsvData> topStrikeRates=listOfBatsman.stream().sorted((firstBatsman,secondBatsman)->(secondBatsman.sixes).compareTo((firstBatsman.sixes)))
 				.limit(5).collect(Collectors.toList());
 		return topStrikeRates;
 	}

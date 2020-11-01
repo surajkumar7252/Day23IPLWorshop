@@ -32,7 +32,7 @@ public void batsmenCsvFileWhenLoaded_ShouldReturnTheBatsmanAverages() {
 		topAverageBatsman = iplMain.topFiveAverages(BATTING_CSV_FILE_PATH);
 		log.info(topAverageBatsman.get(0));
 		Assert.assertEquals("David Warner" , topAverageBatsman.get(0).name);
-		Assert.assertEquals(10, topAverageBatsman.size());
+		Assert.assertEquals(5, topAverageBatsman.size());
 		
 	} catch (CsvException e) {
 		e.printStackTrace();
@@ -44,12 +44,23 @@ public void batsmenCsvFileWhenLoaded_ShouldReturnTheBatsmanAverages() {
 		try {
 			topStrikeRates = iplMain.topFiveStrikeRates(BATTING_CSV_FILE_PATH);
 			log.info(topStrikeRates.get(0));
-			Assert.assertEquals("David Warner" , topStrikeRates.get(0).name);
-			Assert.assertEquals(10, topStrikeRates.size());
+			Assert.assertEquals("Ishant Sharma", topStrikeRates.get(0).name);
+			Assert.assertEquals(5, topStrikeRates.size());
 			
 		} catch (CsvException e) {
 			e.printStackTrace();
 		}
 	}
-   
+	public void batsmenCsvFileWhenLoaded_ShouldReturnTheMaxSixesAndFoursHitter() {
+		List<BatsmanCsvData> topSixesAndFoursHitter;
+		try {
+			topSixesAndFoursHitter = iplMain.topSixesAndFoursHitter(BATTING_CSV_FILE_PATH);
+			log.info(topSixesAndFoursHitter.get(0));
+			Assert.assertEquals("Andre Russell", topSixesAndFoursHitter.get(0).name);
+			Assert.assertEquals(5, topSixesAndFoursHitter.size());
+			
+		} catch (CsvException e) {
+			e.printStackTrace();
+		}
+	}
 }
