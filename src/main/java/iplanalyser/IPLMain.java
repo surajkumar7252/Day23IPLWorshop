@@ -31,6 +31,7 @@ public class IPLMain
         	log.info("\n1.Batsman With Best Batting Average");
             log.info("\n2.Batsman With Best Strike Rate");
             log.info("\n3.Top Sixes and fours hitter.");
+            log.info("\n4.Top Sixes and fours hitter with Best Batting Strike Rates.");
             
 
         	choice=sc.nextInt();
@@ -41,9 +42,11 @@ public class IPLMain
         	        break;
         	case 3: newIplMain.topSixesAndFoursHitter(BATTING_CSV_FILE_PATH);
 	                break;
+        	case 4: newIplMain.topStrikeRatesWithMaxSixesAndFours(BATTING_CSV_FILE_PATH);
+                     break;
         	}
         	
-        }while(choice>0 && choice<=2);
+        }while(choice>0 && choice<=4);
         
   }
     
@@ -75,4 +78,12 @@ public class IPLMain
 				.limit(5).collect(Collectors.toList());
 		return topStrikeRates;
 	}
+    
+    public List<BatsmanCsvData> topStrikeRatesWithMaxSixesAndFours(String BatsmanCsvFilePath) throws CsvException {
+		List<BatsmanCsvData> topSixAndFourHitter=topSixesAndFoursHitter(BatsmanCsvFilePath);
+		List<BatsmanCsvData> topStrikeRateSixAndFourHitter=topSixAndFourHitter.stream().sorted((firstBatsman,secondBatsman)->(secondBatsman.strikeRate).compareTo((firstBatsman.strikeRate)))
+				.limit(5).collect(Collectors.toList());
+		return topStrikeRateSixAndFourHitter;
+	}
+    
 }
